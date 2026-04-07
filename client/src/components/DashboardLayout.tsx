@@ -21,10 +21,19 @@ import {
 } from "@/components/ui/sidebar";
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Stethoscope, Wrench, Package, ClipboardList, QrCode } from "lucide-react";
+import {
+  LayoutDashboard,
+  LogOut,
+  PanelLeft,
+  Stethoscope,
+  Wrench,
+  Package,
+  ClipboardList,
+  QrCode,
+} from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
-import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
+import { DashboardLayoutSkeleton } from "./DashboardLayoutSkeleton";
 import { Button } from "./ui/button";
 
 const menuItems = [
@@ -54,13 +63,15 @@ export default function DashboardLayout({
 
   // FOR DEMO: Force admin user if in demo mode
   const isDemo = import.meta.env.VITE_APP_ID === "demo";
-  const user = isDemo ? (authUser || {
-    id: 1,
-    openId: "demo_admin",
-    name: "Demo Admin",
-    email: "admin@demo.local",
-    role: "admin"
-  }) : authUser;
+  const user = isDemo
+    ? authUser || {
+        id: 1,
+        openId: "demo_admin",
+        name: "Demo Admin",
+        email: "admin@demo.local",
+        role: "admin",
+      }
+    : authUser;
 
   useEffect(() => {
     localStorage.setItem(SIDEBAR_WIDTH_KEY, sidebarWidth.toString());
@@ -69,7 +80,7 @@ export default function DashboardLayout({
   // If in demo mode, we don't show loading or sign-in
   if (!isDemo) {
     if (loading) {
-      return <DashboardLayoutSkeleton />
+      return <DashboardLayoutSkeleton />;
     }
 
     if (!user) {
@@ -81,7 +92,8 @@ export default function DashboardLayout({
                 Sign in to continue
               </h1>
               <p className="text-sm text-muted-foreground text-center max-w-sm">
-                Access to this dashboard requires authentication. Continue to launch the login flow.
+                Access to this dashboard requires authentication. Continue to
+                launch the login flow.
               </p>
             </div>
             <Button
@@ -125,13 +137,15 @@ function DashboardLayoutContent({
 }: DashboardLayoutContentProps) {
   const { user: authUser, logout } = useAuth();
   const isDemo = import.meta.env.VITE_APP_ID === "demo";
-  const user = isDemo ? (authUser || {
-    id: 1,
-    openId: "demo_admin",
-    name: "Demo Admin",
-    email: "admin@demo.local",
-    role: "admin"
-  }) : authUser;
+  const user = isDemo
+    ? authUser || {
+        id: 1,
+        openId: "demo_admin",
+        name: "Demo Admin",
+        email: "admin@demo.local",
+        role: "admin",
+      }
+    : authUser;
 
   const [location, setLocation] = useLocation();
   const { state, toggleSidebar } = useSidebar();

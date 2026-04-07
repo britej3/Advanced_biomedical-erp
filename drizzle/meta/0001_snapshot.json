@@ -101,17 +101,13 @@
       "compositePrimaryKeys": {
         "equipment_id": {
           "name": "equipment_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "equipment_serialNumber_unique": {
           "name": "equipment_serialNumber_unique",
-          "columns": [
-            "serialNumber"
-          ]
+          "columns": ["serialNumber"]
         }
       },
       "checkConstraint": {}
@@ -222,17 +218,13 @@
       "compositePrimaryKeys": {
         "inventory_id": {
           "name": "inventory_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "inventory_partNumber_unique": {
           "name": "inventory_partNumber_unique",
-          "columns": [
-            "partNumber"
-          ]
+          "columns": ["partNumber"]
         }
       },
       "checkConstraint": {}
@@ -335,12 +327,8 @@
           "name": "maintenance_equipmentId_equipment_id_fk",
           "tableFrom": "maintenance",
           "tableTo": "equipment",
-          "columnsFrom": [
-            "equipmentId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["equipmentId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -348,12 +336,8 @@
           "name": "maintenance_technicianId_users_id_fk",
           "tableFrom": "maintenance",
           "tableTo": "users",
-          "columnsFrom": [
-            "technicianId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["technicianId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -361,9 +345,7 @@
       "compositePrimaryKeys": {
         "maintenance_id": {
           "name": "maintenance_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -446,17 +428,13 @@
       "compositePrimaryKeys": {
         "users_id": {
           "name": "users_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "users_openId_unique": {
           "name": "users_openId_unique",
-          "columns": [
-            "openId"
-          ]
+          "columns": ["openId"]
         }
       },
       "checkConstraint": {}
@@ -560,12 +538,8 @@
           "name": "workOrders_assignedTo_users_id_fk",
           "tableFrom": "workOrders",
           "tableTo": "users",
-          "columnsFrom": [
-            "assignedTo"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["assignedTo"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -573,12 +547,8 @@
           "name": "workOrders_equipmentId_equipment_id_fk",
           "tableFrom": "workOrders",
           "tableTo": "equipment",
-          "columnsFrom": [
-            "equipmentId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["equipmentId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -586,12 +556,8 @@
           "name": "workOrders_createdBy_users_id_fk",
           "tableFrom": "workOrders",
           "tableTo": "users",
-          "columnsFrom": [
-            "createdBy"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["createdBy"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -599,9 +565,7 @@
       "compositePrimaryKeys": {
         "workOrders_id": {
           "name": "workOrders_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},

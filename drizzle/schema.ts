@@ -1,4 +1,11 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import {
+  int,
+  mysqlEnum,
+  mysqlTable,
+  text,
+  timestamp,
+  varchar,
+} from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -35,7 +42,14 @@ export const equipment = mysqlTable("equipment", {
   model: varchar("model", { length: 255 }).notNull(),
   serialNumber: varchar("serialNumber", { length: 255 }).notNull().unique(),
   location: varchar("location", { length: 255 }).notNull(),
-  status: mysqlEnum("status", ["operational", "maintenance", "out_of_service", "retired"]).default("operational").notNull(),
+  status: mysqlEnum("status", [
+    "operational",
+    "maintenance",
+    "out_of_service",
+    "retired",
+  ])
+    .default("operational")
+    .notNull(),
   manufacturer: varchar("manufacturer", { length: 255 }),
   purchaseDate: timestamp("purchaseDate"),
   warrantyExpiry: timestamp("warrantyExpiry"),
@@ -53,12 +67,21 @@ export type InsertEquipment = typeof equipment.$inferInsert;
  */
 export const maintenance = mysqlTable("maintenance", {
   id: int("id").autoincrement().primaryKey(),
-  equipmentId: int("equipmentId").notNull().references(() => equipment.id),
+  equipmentId: int("equipmentId")
+    .notNull()
+    .references(() => equipment.id),
   type: mysqlEnum("type", ["preventive", "corrective", "inspection"]).notNull(),
   description: text("description").notNull(),
   scheduledDate: timestamp("scheduledDate").notNull(),
   completedDate: timestamp("completedDate"),
-  status: mysqlEnum("status", ["scheduled", "in_progress", "completed", "cancelled"]).default("scheduled").notNull(),
+  status: mysqlEnum("status", [
+    "scheduled",
+    "in_progress",
+    "completed",
+    "cancelled",
+  ])
+    .default("scheduled")
+    .notNull(),
   technicianId: int("technicianId").references(() => users.id),
   cost: int("cost"),
   notes: text("notes"),
@@ -101,12 +124,24 @@ export const workOrders = mysqlTable("workOrders", {
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
   assignedTo: int("assignedTo").references(() => users.id),
-  status: mysqlEnum("status", ["open", "in_progress", "completed", "on_hold", "cancelled"]).default("open").notNull(),
-  priority: mysqlEnum("priority", ["low", "medium", "high", "urgent"]).default("medium").notNull(),
+  status: mysqlEnum("status", [
+    "open",
+    "in_progress",
+    "completed",
+    "on_hold",
+    "cancelled",
+  ])
+    .default("open")
+    .notNull(),
+  priority: mysqlEnum("priority", ["low", "medium", "high", "urgent"])
+    .default("medium")
+    .notNull(),
   dueDate: timestamp("dueDate"),
   completedDate: timestamp("completedDate"),
   equipmentId: int("equipmentId").references(() => equipment.id),
-  createdBy: int("createdBy").notNull().references(() => users.id),
+  createdBy: int("createdBy")
+    .notNull()
+    .references(() => users.id),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

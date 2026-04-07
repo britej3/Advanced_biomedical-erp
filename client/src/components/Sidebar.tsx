@@ -84,7 +84,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
 
         <nav className="flex-1 overflow-y-auto py-6 px-3">
           <div className="space-y-2">
-            {navItems.map((item) => {
+            {navItems.map(item => {
               const isActive = location === item.path;
               const Icon = item.icon;
 
@@ -108,9 +108,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                       {item.badge}
                     </span>
                   )}
-                  {isActive && (
-                    <ChevronRight className="w-4 h-4 ml-auto" />
-                  )}
+                  {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
                 </button>
               );
             })}

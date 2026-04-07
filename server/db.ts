@@ -1,7 +1,18 @@
 import fs from "fs";
 import path from "path";
-import { InsertUser, User, InsertEquipment, Equipment, InsertMaintenance, Maintenance, InsertInventory, Inventory, InsertWorkOrder, WorkOrder } from "../drizzle/schema";
-import { ENV } from './_core/env';
+import {
+  InsertUser,
+  User,
+  InsertEquipment,
+  Equipment,
+  InsertMaintenance,
+  Maintenance,
+  InsertInventory,
+  Inventory,
+  InsertWorkOrder,
+  WorkOrder,
+} from "../drizzle/schema";
+import { ENV } from "./_core/env";
 
 const DB_PATH = path.join(process.cwd(), "server", "db.json");
 
@@ -16,7 +27,13 @@ interface DbSchema {
 function readDb(): DbSchema {
   try {
     if (!fs.existsSync(DB_PATH)) {
-      const initialDb: DbSchema = { users: [], equipment: [], maintenance: [], inventory: [], workOrders: [] };
+      const initialDb: DbSchema = {
+        users: [],
+        equipment: [],
+        maintenance: [],
+        inventory: [],
+        workOrders: [],
+      };
       fs.writeFileSync(DB_PATH, JSON.stringify(initialDb, null, 2));
       return initialDb;
     }
@@ -24,7 +41,13 @@ function readDb(): DbSchema {
     return JSON.parse(data);
   } catch (error) {
     console.error("Error reading database:", error);
-    return { users: [], equipment: [], maintenance: [], inventory: [], workOrders: [] };
+    return {
+      users: [],
+      equipment: [],
+      maintenance: [],
+      inventory: [],
+      workOrders: [],
+    };
   }
 }
 
@@ -59,7 +82,7 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       name: user.name ?? null,
       email: user.email ?? null,
       loginMethod: user.loginMethod ?? null,
-      role: user.role ?? (user.openId === ENV.ownerOpenId ? 'admin' : 'user'),
+      role: user.role ?? (user.openId === ENV.ownerOpenId ? "admin" : "user"),
       createdAt: now,
       updatedAt: now,
       lastSignedIn: now,
@@ -86,7 +109,7 @@ export async function createEquipment(data: InsertEquipment) {
   const newEquipment: Equipment = {
     id: db.equipment.length + 1,
     ...data,
-    status: data.status ?? 'operational',
+    status: data.status ?? "operational",
     createdAt: now,
     updatedAt: now,
   } as Equipment;
@@ -97,7 +120,9 @@ export async function createEquipment(data: InsertEquipment) {
 
 export async function getEquipmentList() {
   const db = readDb();
-  return db.equipment.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  return db.equipment.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 }
 
 export async function getEquipmentById(id: number) {
@@ -105,7 +130,10 @@ export async function getEquipmentById(id: number) {
   return db.equipment.find(e => e.id === id);
 }
 
-export async function updateEquipment(id: number, data: Partial<InsertEquipment>) {
+export async function updateEquipment(
+  id: number,
+  data: Partial<InsertEquipment>
+) {
   const db = readDb();
   const index = db.equipment.findIndex(e => e.id === id);
   if (index >= 0) {
@@ -133,7 +161,7 @@ export async function createMaintenance(data: InsertMaintenance) {
   const newMaintenance: Maintenance = {
     id: db.maintenance.length + 1,
     ...data,
-    status: data.status ?? 'scheduled',
+    status: data.status ?? "scheduled",
     createdAt: now,
     updatedAt: now,
   } as Maintenance;
@@ -144,7 +172,10 @@ export async function createMaintenance(data: InsertMaintenance) {
 
 export async function getMaintenanceList() {
   const db = readDb();
-  return db.maintenance.sort((a, b) => new Date(a.scheduledDate).getTime() - new Date(b.scheduledDate).getTime());
+  return db.maintenance.sort(
+    (a, b) =>
+      new Date(a.scheduledDate).getTime() - new Date(b.scheduledDate).getTime()
+  );
 }
 
 export async function getMaintenanceById(id: number) {
@@ -152,7 +183,10 @@ export async function getMaintenanceById(id: number) {
   return db.maintenance.find(m => m.id === id);
 }
 
-export async function updateMaintenance(id: number, data: Partial<InsertMaintenance>) {
+export async function updateMaintenance(
+  id: number,
+  data: Partial<InsertMaintenance>
+) {
   const db = readDb();
   const index = db.maintenance.findIndex(m => m.id === id);
   if (index >= 0) {
@@ -182,7 +216,7 @@ export async function createInventory(data: InsertInventory) {
     ...data,
     quantity: data.quantity ?? 0,
     threshold: data.threshold ?? 5,
-    unit: data.unit ?? 'piece',
+    unit: data.unit ?? "piece",
     createdAt: now,
     updatedAt: now,
   } as Inventory;
@@ -193,7 +227,9 @@ export async function createInventory(data: InsertInventory) {
 
 export async function getInventoryList() {
   const db = readDb();
-  return db.inventory.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  return db.inventory.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 }
 
 export async function getInventoryById(id: number) {
@@ -201,7 +237,10 @@ export async function getInventoryById(id: number) {
   return db.inventory.find(i => i.id === id);
 }
 
-export async function updateInventory(id: number, data: Partial<InsertInventory>) {
+export async function updateInventory(
+  id: number,
+  data: Partial<InsertInventory>
+) {
   const db = readDb();
   const index = db.inventory.findIndex(i => i.id === id);
   if (index >= 0) {
@@ -234,8 +273,8 @@ export async function createWorkOrder(data: InsertWorkOrder) {
   const newWorkOrder: WorkOrder = {
     id: db.workOrders.length + 1,
     ...data,
-    status: data.status ?? 'open',
-    priority: data.priority ?? 'medium',
+    status: data.status ?? "open",
+    priority: data.priority ?? "medium",
     createdAt: now,
     updatedAt: now,
   } as WorkOrder;
@@ -246,7 +285,9 @@ export async function createWorkOrder(data: InsertWorkOrder) {
 
 export async function getWorkOrdersList() {
   const db = readDb();
-  return db.workOrders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  return db.workOrders.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 }
 
 export async function getWorkOrderById(id: number) {
@@ -254,7 +295,10 @@ export async function getWorkOrderById(id: number) {
   return db.workOrders.find(w => w.id === id);
 }
 
-export async function updateWorkOrder(id: number, data: Partial<InsertWorkOrder>) {
+export async function updateWorkOrder(
+  id: number,
+  data: Partial<InsertWorkOrder>
+) {
   const db = readDb();
   const index = db.workOrders.findIndex(w => w.id === id);
   if (index >= 0) {
@@ -295,7 +339,7 @@ export async function getEquipmentStatusDistribution() {
   });
 
   return Object.entries(distribution).map(([status, count]) => ({
-    name: status.charAt(0).toUpperCase() + status.slice(1).replace(/_/g, ' '),
+    name: status.charAt(0).toUpperCase() + status.slice(1).replace(/_/g, " "),
     value: count,
     status,
   }));
@@ -304,27 +348,32 @@ export async function getEquipmentStatusDistribution() {
 // Monthly activity for last 6 months
 export async function getMonthlyActivity() {
   const db = readDb();
-  const months: { name: string; equipment: number; maintenance: number; workorders: number }[] = [];
+  const months: {
+    name: string;
+    equipment: number;
+    maintenance: number;
+    workorders: number;
+  }[] = [];
   const now = new Date();
 
   for (let i = 5; i >= 0; i--) {
     const startDate = new Date(now.getFullYear(), now.getMonth() - i, 1);
     const endDate = new Date(now.getFullYear(), now.getMonth() - i + 1, 0);
-    const monthName = startDate.toLocaleString('default', { month: 'short' });
+    const monthName = startDate.toLocaleString("default", { month: "short" });
 
     const equipmentCount = db.equipment.filter(e => {
-        const d = new Date(e.createdAt);
-        return d >= startDate && d <= endDate;
+      const d = new Date(e.createdAt);
+      return d >= startDate && d <= endDate;
     }).length;
 
     const maintenanceCount = db.maintenance.filter(m => {
-        const d = new Date(m.createdAt);
-        return d >= startDate && d <= endDate;
+      const d = new Date(m.createdAt);
+      return d >= startDate && d <= endDate;
     }).length;
 
     const workOrdersCount = db.workOrders.filter(w => {
-        const d = new Date(w.createdAt);
-        return d >= startDate && d <= endDate;
+      const d = new Date(w.createdAt);
+      return d >= startDate && d <= endDate;
     }).length;
 
     months.push({

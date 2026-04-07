@@ -22,6 +22,7 @@ pnpm db:push          # Generate and run database migrations
 ## Architecture
 
 ### Stack
+
 - **Frontend**: React 19 + TypeScript + Tailwind CSS 4 + Vite
 - **Backend**: Express.js + tRPC 11 (type-safe API)
 - **Database**: MySQL/TiDB with Drizzle ORM
@@ -29,6 +30,7 @@ pnpm db:push          # Generate and run database migrations
 - **UI**: shadcn/ui + Radix UI components in `client/src/components/ui/`
 
 ### Directory Structure
+
 ```
 client/src/
 ├── pages/           # Route components (Dashboard, Equipment, Maintenance, Inventory, WorkOrders, QRScanner)
@@ -63,13 +65,15 @@ shared/
 
 **Route Protection**: Uses `protectedProcedure` in tRPC routers. Unauthorized users get UNAUTHORIZED error; non-admins get FORBIDDEN for admin-only operations.
 
-**Role-Based Access**: 
+**Role-Based Access**:
+
 - Admin: Full CRUD access to all modules
 - User: Can view and update assigned tasks, limited access
 
 ## Database Schema
 
 5 tables with foreign key relationships:
+
 - `users`: Manus OAuth users (openId, role: user/admin)
 - `equipment`: Biomedical devices (name, model, serialNumber, location, status)
 - `maintenance`: Maintenance records (type: preventive/corrective/inspection, status, equipmentId)
@@ -102,6 +106,7 @@ OAUTH_SERVER_URL=https://api.manus.im
 ## Testing
 
 Tests use Vitest with node environment. Test files in `server/*.test.ts`. Example pattern:
+
 ```typescript
 import { describe, expect, it } from "vitest";
 import { appRouter } from "./routers";

@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AlertCircle, QrCode, X } from "lucide-react";
 import { toast } from "sonner";
@@ -44,7 +50,9 @@ export default function QRScanner() {
         scanner.clear().catch(() => {});
         setIsScanning(false);
       } catch (err) {
-        setError("Invalid QR code format. Please scan a valid equipment QR code.");
+        setError(
+          "Invalid QR code format. Please scan a valid equipment QR code."
+        );
         toast.error("Invalid QR code format");
       }
     };
@@ -82,15 +90,21 @@ export default function QRScanner() {
     if (scannedData) {
       // Navigate to equipment page with the scanned equipment ID
       setLocation(`/equipment`);
-      toast.info(`Navigating to equipment details for ID: ${scannedData.equipmentId}`);
+      toast.info(
+        `Navigating to equipment details for ID: ${scannedData.equipmentId}`
+      );
     }
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-slate-900">Equipment QR Scanner</h1>
-        <p className="text-slate-600 mt-1">Scan equipment QR codes to quickly access information</p>
+        <h1 className="text-3xl font-bold text-slate-900">
+          Equipment QR Scanner
+        </h1>
+        <p className="text-slate-600 mt-1">
+          Scan equipment QR codes to quickly access information
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -101,17 +115,30 @@ export default function QRScanner() {
               <QrCode className="w-5 h-5" />
               QR Code Scanner
             </CardTitle>
-            <CardDescription>Point your camera at an equipment QR code</CardDescription>
+            <CardDescription>
+              Point your camera at an equipment QR code
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {!isScanning ? (
-              <Button onClick={handleStartScanning} className="w-full" size="lg">
+              <Button
+                onClick={handleStartScanning}
+                className="w-full"
+                size="lg"
+              >
                 Start Scanner
               </Button>
             ) : (
               <>
-                <div id="qr-reader" className="w-full rounded-lg overflow-hidden border-2 border-blue-200" />
-                <Button onClick={handleStopScanning} variant="destructive" className="w-full">
+                <div
+                  id="qr-reader"
+                  className="w-full rounded-lg overflow-hidden border-2 border-blue-200"
+                />
+                <Button
+                  onClick={handleStopScanning}
+                  variant="destructive"
+                  className="w-full"
+                >
                   Stop Scanner
                 </Button>
               </>
@@ -133,26 +160,42 @@ export default function QRScanner() {
         <Card>
           <CardHeader>
             <CardTitle>Scanned Equipment</CardTitle>
-            <CardDescription>Information from the last scanned QR code</CardDescription>
+            <CardDescription>
+              Information from the last scanned QR code
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {scannedData ? (
               <div className="space-y-4">
                 <div className="space-y-3 p-4 bg-slate-50 rounded-lg">
                   <div>
-                    <p className="text-sm font-medium text-slate-600">Equipment Name</p>
-                    <p className="text-lg font-semibold text-slate-900">{scannedData.name}</p>
+                    <p className="text-sm font-medium text-slate-600">
+                      Equipment Name
+                    </p>
+                    <p className="text-lg font-semibold text-slate-900">
+                      {scannedData.name}
+                    </p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-slate-600">Equipment ID</p>
-                    <p className="font-mono text-slate-900">{scannedData.equipmentId}</p>
+                    <p className="text-sm font-medium text-slate-600">
+                      Equipment ID
+                    </p>
+                    <p className="font-mono text-slate-900">
+                      {scannedData.equipmentId}
+                    </p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-slate-600">Serial Number</p>
-                    <p className="font-mono text-slate-900">{scannedData.serialNumber}</p>
+                    <p className="text-sm font-medium text-slate-600">
+                      Serial Number
+                    </p>
+                    <p className="font-mono text-slate-900">
+                      {scannedData.serialNumber}
+                    </p>
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-slate-600">Scanned At</p>
+                    <p className="text-sm font-medium text-slate-600">
+                      Scanned At
+                    </p>
                     <p className="text-sm text-slate-600">
                       {new Date(scannedData.timestamp).toLocaleString()}
                     </p>
@@ -196,19 +239,24 @@ export default function QRScanner() {
         <CardContent>
           <ol className="space-y-3 list-decimal list-inside">
             <li className="text-slate-700">
-              <span className="font-medium">Click "Start Scanner"</span> to activate your device camera
+              <span className="font-medium">Click "Start Scanner"</span> to
+              activate your device camera
             </li>
             <li className="text-slate-700">
-              <span className="font-medium">Point your camera</span> at an equipment QR code
+              <span className="font-medium">Point your camera</span> at an
+              equipment QR code
             </li>
             <li className="text-slate-700">
-              <span className="font-medium">Wait for the scan</span> to complete automatically
+              <span className="font-medium">Wait for the scan</span> to complete
+              automatically
             </li>
             <li className="text-slate-700">
-              <span className="font-medium">View the equipment details</span> in the results panel
+              <span className="font-medium">View the equipment details</span> in
+              the results panel
             </li>
             <li className="text-slate-700">
-              <span className="font-medium">Click "View Details"</span> to access full equipment information
+              <span className="font-medium">Click "View Details"</span> to
+              access full equipment information
             </li>
           </ol>
         </CardContent>

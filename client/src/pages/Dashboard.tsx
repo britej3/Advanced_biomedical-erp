@@ -1,6 +1,12 @@
 import React from "react";
 import { trpc } from "@/lib/trpc";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, Wrench, ClipboardList, Stethoscope } from "lucide-react";
 import {
@@ -31,10 +37,24 @@ export default function Dashboard() {
   const { data: statusData } = trpc.dashboard.equipmentStatus.useQuery();
   const { data: monthlyData } = trpc.dashboard.monthlyActivity.useQuery();
 
-  const StatCard = ({ icon: Icon, label, value, color, description }: { icon: React.ElementType; label: string; value?: number; color: string; description?: string }) => (
+  const StatCard = ({
+    icon: Icon,
+    label,
+    value,
+    color,
+    description,
+  }: {
+    icon: React.ElementType;
+    label: string;
+    value?: number;
+    color: string;
+    description?: string;
+  }) => (
     <Card className="hover:shadow-lg transition-shadow">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-slate-600">{label}</CardTitle>
+        <CardTitle className="text-sm font-medium text-slate-600">
+          {label}
+        </CardTitle>
         <Icon className={`w-5 h-5 ${color}`} />
       </CardHeader>
       <CardContent>
@@ -43,7 +63,9 @@ export default function Dashboard() {
         ) : (
           <>
             <div className="text-2xl font-bold">{value || 0}</div>
-            {description && <p className="text-xs text-slate-500 mt-1">{description}</p>}
+            {description && (
+              <p className="text-xs text-slate-500 mt-1">{description}</p>
+            )}
           </>
         )}
       </CardContent>
@@ -54,7 +76,9 @@ export default function Dashboard() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
-        <p className="text-slate-600 mt-1">Welcome to the Biomedical ERP System</p>
+        <p className="text-slate-600 mt-1">
+          Welcome to the Biomedical ERP System
+        </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -103,9 +127,24 @@ export default function Dashboard() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="equipment" stroke="#3b82f6" name="Equipment" />
-                  <Line type="monotone" dataKey="maintenance" stroke="#10b981" name="Maintenance" />
-                  <Line type="monotone" dataKey="workorders" stroke="#f59e0b" name="Work Orders" />
+                  <Line
+                    type="monotone"
+                    dataKey="equipment"
+                    stroke="#3b82f6"
+                    name="Equipment"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="maintenance"
+                    stroke="#10b981"
+                    name="Maintenance"
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="workorders"
+                    stroke="#f59e0b"
+                    name="Work Orders"
+                  />
                 </LineChart>
               </ResponsiveContainer>
             ) : (
@@ -137,7 +176,10 @@ export default function Dashboard() {
                     {statusData.map((entry, index) => (
                       <Cell
                         key={`cell-${index}`}
-                        fill={STATUS_COLORS[entry.status] || `#${(index * 1234567).toString(16).padStart(6, '0')}`}
+                        fill={
+                          STATUS_COLORS[entry.status] ||
+                          `#${(index * 1234567).toString(16).padStart(6, "0")}`
+                        }
                       />
                     ))}
                   </Pie>
@@ -155,7 +197,9 @@ export default function Dashboard() {
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle>Monthly Overview</CardTitle>
-            <CardDescription>Equipment, maintenance, and work orders comparison</CardDescription>
+            <CardDescription>
+              Equipment, maintenance, and work orders comparison
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {monthlyData && monthlyData.length > 0 ? (
@@ -167,7 +211,11 @@ export default function Dashboard() {
                   <Tooltip />
                   <Legend />
                   <Bar dataKey="equipment" fill="#3b82f6" name="Equipment" />
-                  <Bar dataKey="maintenance" fill="#10b981" name="Maintenance" />
+                  <Bar
+                    dataKey="maintenance"
+                    fill="#10b981"
+                    name="Maintenance"
+                  />
                   <Bar dataKey="workorders" fill="#f59e0b" name="Work Orders" />
                 </BarChart>
               </ResponsiveContainer>

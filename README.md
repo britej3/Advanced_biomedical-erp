@@ -9,12 +9,14 @@ The Biomedical Department ERP System is a full-stack web application built with 
 ### Key Features
 
 **Equipment Management**
+
 - Register and maintain comprehensive biomedical device records
 - Track device specifications including model, serial number, location, and manufacturer
 - Monitor equipment status (operational, maintenance, out of service, retired)
 - Maintain purchase date and warranty expiration information
 
 **Maintenance Scheduling**
+
 - Schedule preventive and corrective maintenance tasks
 - Track maintenance history and completion status
 - Assign maintenance tasks to technicians
@@ -22,6 +24,7 @@ The Biomedical Department ERP System is a full-stack web application built with 
 - Monitor upcoming maintenance deadlines
 
 **Inventory & Spare Parts Management**
+
 - Track spare parts and consumables inventory
 - Set low-stock thresholds with automatic alerts
 - Monitor stock levels in real-time
@@ -29,6 +32,7 @@ The Biomedical Department ERP System is a full-stack web application built with 
 - Categorize items for better organization
 
 **Staff & Work Orders**
+
 - Create and assign work orders to team members
 - Set priority levels (low, medium, high, urgent)
 - Track work order status (open, in-progress, completed, on-hold, cancelled)
@@ -36,6 +40,7 @@ The Biomedical Department ERP System is a full-stack web application built with 
 - Monitor due dates and completion timelines
 
 **Dashboard & Analytics**
+
 - Real-time summary cards with key metrics
 - Visual charts showing activity trends
 - Equipment status distribution pie chart
@@ -43,12 +48,14 @@ The Biomedical Department ERP System is a full-stack web application built with 
 - Low-stock alerts and notifications
 
 **Role-Based Access Control**
+
 - Admin role: Full system access and configuration
 - Technician role: Limited access to assigned tasks
 - Secure authentication with Manus OAuth
 - Protected API endpoints with permission checks
 
 **QR Code Equipment Tracking**
+
 - Automatic QR code generation for each equipment
 - Download and print QR codes for physical labeling
 - Mobile-friendly QR code scanner
@@ -57,19 +64,19 @@ The Biomedical Department ERP System is a full-stack web application built with 
 
 ## Technology Stack
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| **Frontend** | React 19, TypeScript, Tailwind CSS 4 | Modern, responsive UI |
-| **Backend** | Express.js, tRPC 11, TypeScript | Type-safe API layer |
-| **Database** | MySQL/TiDB with Drizzle ORM | Reliable data persistence |
-| **Authentication** | Manus OAuth | Secure user authentication |
-| **Charts & Visualization** | Recharts | Interactive data visualization |
-| **Icons** | Lucide React | Consistent icon library |
-| **UI Components** | shadcn/ui, Radix UI | Accessible component library |
-| **Styling** | Tailwind CSS 4 | Utility-first CSS framework |
-| **Build Tools** | Vite, esbuild | Fast development and production builds |
-| **Testing** | Vitest | Unit and integration testing |
-| **QR Codes** | qrcode.react, html5-qrcode | QR code generation and scanning |
+| Layer                      | Technology                           | Purpose                                |
+| -------------------------- | ------------------------------------ | -------------------------------------- |
+| **Frontend**               | React 19, TypeScript, Tailwind CSS 4 | Modern, responsive UI                  |
+| **Backend**                | Express.js, tRPC 11, TypeScript      | Type-safe API layer                    |
+| **Database**               | MySQL/TiDB with Drizzle ORM          | Reliable data persistence              |
+| **Authentication**         | Manus OAuth                          | Secure user authentication             |
+| **Charts & Visualization** | Recharts                             | Interactive data visualization         |
+| **Icons**                  | Lucide React                         | Consistent icon library                |
+| **UI Components**          | shadcn/ui, Radix UI                  | Accessible component library           |
+| **Styling**                | Tailwind CSS 4                       | Utility-first CSS framework            |
+| **Build Tools**            | Vite, esbuild                        | Fast development and production builds |
+| **Testing**                | Vitest                               | Unit and integration testing           |
+| **QR Codes**               | qrcode.react, html5-qrcode           | QR code generation and scanning        |
 
 ## Project Structure
 
@@ -112,25 +119,30 @@ biomedical-erp/
 ### Tables Overview
 
 **users** - User profiles and authentication
+
 - Stores user information and role assignments
 - Integrates with Manus OAuth for authentication
 
 **equipment** - Biomedical device registry
+
 - Tracks all biomedical equipment with specifications
 - Maintains status and location information
 - Records warranty and purchase details
 
 **maintenance** - Maintenance records
+
 - Logs preventive, corrective, and inspection maintenance
 - Links to equipment and assigned technicians
 - Tracks scheduling and completion status
 
 **inventory** - Spare parts and supplies
+
 - Manages stock levels and thresholds
 - Tracks suppliers and unit costs
 - Supports low-stock alerting
 
 **workOrders** - Task management and assignments
+
 - Creates and assigns work tasks
 - Tracks priority and status
 - Links to equipment and assigned staff
@@ -147,29 +159,35 @@ biomedical-erp/
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd biomedical-erp
    ```
 
 2. **Install dependencies**
+
    ```bash
    pnpm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.local.example .env.local
    ```
+
    Edit `.env.local` and fill in your configuration values (see .env.local.example for details)
 
 4. **Set up the database**
+
    ```bash
    pnpm drizzle-kit generate
    pnpm drizzle-kit migrate
    ```
 
 5. **Start the development server**
+
    ```bash
    pnpm dev
    ```
@@ -208,6 +226,7 @@ pnpm start
 All API procedures are defined in `server/routers.ts` and follow the tRPC pattern. Key routers include:
 
 **Equipment Router**
+
 - `equipment.list` - Get all equipment
 - `equipment.getById` - Get equipment by ID
 - `equipment.create` - Create new equipment (admin only)
@@ -215,6 +234,7 @@ All API procedures are defined in `server/routers.ts` and follow the tRPC patter
 - `equipment.delete` - Delete equipment (admin only)
 
 **Maintenance Router**
+
 - `maintenance.list` - Get all maintenance records
 - `maintenance.getById` - Get maintenance by ID
 - `maintenance.create` - Create maintenance record
@@ -222,6 +242,7 @@ All API procedures are defined in `server/routers.ts` and follow the tRPC patter
 - `maintenance.delete` - Delete maintenance record (admin only)
 
 **Inventory Router**
+
 - `inventory.list` - Get all inventory items
 - `inventory.getById` - Get inventory by ID
 - `inventory.lowStock` - Get low-stock items
@@ -230,6 +251,7 @@ All API procedures are defined in `server/routers.ts` and follow the tRPC patter
 - `inventory.delete` - Delete inventory item (admin only)
 
 **Work Orders Router**
+
 - `workOrders.list` - Get all work orders
 - `workOrders.getById` - Get work order by ID
 - `workOrders.create` - Create work order
@@ -237,6 +259,7 @@ All API procedures are defined in `server/routers.ts` and follow the tRPC patter
 - `workOrders.delete` - Delete work order (admin only)
 
 **Dashboard Router**
+
 - `dashboard.stats` - Get dashboard statistics
 
 ## Authentication & Authorization
@@ -253,6 +276,7 @@ Protected procedures use `protectedProcedure` which requires authentication. Adm
 ### Vercel Deployment
 
 1. **Push code to GitHub**
+
    ```bash
    git push origin main
    ```
@@ -273,6 +297,7 @@ Protected procedures use `protectedProcedure` which requires authentication. Adm
 ### Alternative Hosting
 
 The application can be deployed to any Node.js hosting platform:
+
 - Railway
 - Render
 - DigitalOcean
@@ -336,6 +361,7 @@ MIT License - See LICENSE file for details
 ## Support
 
 For issues, feature requests, or questions:
+
 - Create an issue in the repository
 - Contact the development team
 - Check documentation and FAQs
@@ -347,6 +373,7 @@ The system includes advanced QR code generation and scanning capabilities for ef
 ### Features
 
 **QR Code Generation:**
+
 - Automatic QR code creation for each equipment item
 - Encodes equipment ID, serial number, and name
 - Download QR codes as PNG images
@@ -354,6 +381,7 @@ The system includes advanced QR code generation and scanning capabilities for ef
 - Display in modal dialogs from equipment list
 
 **QR Code Scanner:**
+
 - Mobile-friendly scanner page accessible from sidebar
 - Real-time camera access for scanning
 - Automatic equipment information display
@@ -363,12 +391,14 @@ The system includes advanced QR code generation and scanning capabilities for ef
 ### Usage
 
 **Viewing Equipment QR Codes:**
+
 1. Navigate to Equipment Management
 2. Click the blue QR code icon next to any equipment
 3. Modal displays the QR code with equipment details
 4. Download or print the QR code for labeling
 
 **Scanning Equipment:**
+
 1. Go to QR Scanner from the sidebar
 2. Click "Start Scanner"
 3. Allow camera access on your device
@@ -378,11 +408,13 @@ The system includes advanced QR code generation and scanning capabilities for ef
 ### Technical Details
 
 **Libraries:**
+
 - `qrcode.react` - QR code generation (SVG format)
 - `html5-qrcode` - QR code scanning with camera access
 
 **Data Format:**
 QR codes encode JSON with equipment information:
+
 ```json
 {
   "equipmentId": 1,

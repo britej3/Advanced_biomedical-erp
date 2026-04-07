@@ -22,6 +22,7 @@ Vercel is the recommended hosting platform for this application due to its seaml
 ### Step 1: Prepare Your Repository
 
 1. **Ensure code is committed**
+
    ```bash
    git add .
    git commit -m "Prepare for deployment"
@@ -29,6 +30,7 @@ Vercel is the recommended hosting platform for this application due to its seaml
    ```
 
 2. **Verify `.gitignore` includes sensitive files**
+
    ```
    .env.local
    .env.production.local
@@ -62,23 +64,23 @@ Vercel is the recommended hosting platform for this application due to its seaml
 
 In Vercel project settings, add all variables from `.env.local`:
 
-| Variable | Value | Notes |
-|----------|-------|-------|
-| `DATABASE_URL` | Your production database URL | Must be MySQL-compatible |
-| `VITE_APP_ID` | Your Manus OAuth app ID | From Manus console |
-| `OAUTH_SERVER_URL` | https://api.manus.im | Provided by Manus |
-| `VITE_OAUTH_PORTAL_URL` | https://auth.manus.im | Provided by Manus |
-| `JWT_SECRET` | Strong random string (min 32 chars) | Generate with: `openssl rand -base64 32` |
-| `OWNER_OPEN_ID` | Your Manus OpenID | Your account ID |
-| `OWNER_NAME` | Your name | Display name |
-| `BUILT_IN_FORGE_API_URL` | https://api.manus.im/forge | Provided by Manus |
-| `BUILT_IN_FORGE_API_KEY` | Your server API key | From Manus console |
-| `VITE_FRONTEND_FORGE_API_KEY` | Your frontend API key | From Manus console |
-| `VITE_ANALYTICS_ENDPOINT` | https://analytics.manus.im | Provided by Manus |
-| `VITE_ANALYTICS_WEBSITE_ID` | Your website ID | From analytics setup |
-| `VITE_APP_TITLE` | Biomedical ERP | Application title |
-| `VITE_APP_LOGO` | Your logo URL | CDN URL for logo |
-| `NODE_ENV` | production | Always use "production" |
+| Variable                      | Value                               | Notes                                    |
+| ----------------------------- | ----------------------------------- | ---------------------------------------- |
+| `DATABASE_URL`                | Your production database URL        | Must be MySQL-compatible                 |
+| `VITE_APP_ID`                 | Your Manus OAuth app ID             | From Manus console                       |
+| `OAUTH_SERVER_URL`            | https://api.manus.im                | Provided by Manus                        |
+| `VITE_OAUTH_PORTAL_URL`       | https://auth.manus.im               | Provided by Manus                        |
+| `JWT_SECRET`                  | Strong random string (min 32 chars) | Generate with: `openssl rand -base64 32` |
+| `OWNER_OPEN_ID`               | Your Manus OpenID                   | Your account ID                          |
+| `OWNER_NAME`                  | Your name                           | Display name                             |
+| `BUILT_IN_FORGE_API_URL`      | https://api.manus.im/forge          | Provided by Manus                        |
+| `BUILT_IN_FORGE_API_KEY`      | Your server API key                 | From Manus console                       |
+| `VITE_FRONTEND_FORGE_API_KEY` | Your frontend API key               | From Manus console                       |
+| `VITE_ANALYTICS_ENDPOINT`     | https://analytics.manus.im          | Provided by Manus                        |
+| `VITE_ANALYTICS_WEBSITE_ID`   | Your website ID                     | From analytics setup                     |
+| `VITE_APP_TITLE`              | Biomedical ERP                      | Application title                        |
+| `VITE_APP_LOGO`               | Your logo URL                       | CDN URL for logo                         |
+| `NODE_ENV`                    | production                          | Always use "production"                  |
 
 **Adding Environment Variables in Vercel:**
 
@@ -92,11 +94,13 @@ In Vercel project settings, add all variables from `.env.local`:
 In Vercel project settings:
 
 1. **Build Command**
+
    ```
    pnpm build
    ```
 
 2. **Output Directory**
+
    ```
    dist
    ```
@@ -127,6 +131,7 @@ In Vercel project settings:
 ### Production Database
 
 **Recommended Providers:**
+
 - AWS RDS (MySQL)
 - Google Cloud SQL
 - Azure Database for MySQL
@@ -136,6 +141,7 @@ In Vercel project settings:
 **Database Configuration:**
 
 1. **Create Database**
+
    ```sql
    CREATE DATABASE biomedical_erp CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    CREATE USER 'erp_user'@'%' IDENTIFIED BY 'strong_password_here';
@@ -144,6 +150,7 @@ In Vercel project settings:
    ```
 
 2. **Connection String Format**
+
    ```
    mysql://erp_user:strong_password_here@host:3306/biomedical_erp
    ```
@@ -176,6 +183,7 @@ Vercel automatically provides SSL certificates via Let's Encrypt. No additional 
 ### Initial Setup
 
 1. **Apply Migrations**
+
    ```bash
    # Run migrations on production database
    pnpm drizzle-kit migrate
@@ -194,11 +202,13 @@ Vercel automatically provides SSL certificates via Let's Encrypt. No additional 
 ### Backup Strategy
 
 **Automated Backups:**
+
 - Enable automatic backups in your database provider
 - Set retention to minimum 30 days
 - Test restore procedures regularly
 
 **Manual Backups:**
+
 ```bash
 # Backup database
 mysqldump -u erp_user -p biomedical_erp > backup_$(date +%Y%m%d).sql
@@ -231,6 +241,7 @@ const pool = mysql.createPool({
 Before deploying to production:
 
 ### Code Quality
+
 - [ ] All tests passing: `pnpm test`
 - [ ] No TypeScript errors: `pnpm check`
 - [ ] Code formatted: `pnpm format`
@@ -238,6 +249,7 @@ Before deploying to production:
 - [ ] Error handling implemented
 
 ### Security
+
 - [ ] All secrets in environment variables
 - [ ] No hardcoded credentials
 - [ ] HTTPS enforced
@@ -247,6 +259,7 @@ Before deploying to production:
 - [ ] XSS protection enabled
 
 ### Performance
+
 - [ ] Database indexes created
 - [ ] Lazy loading implemented
 - [ ] Images optimized
@@ -254,6 +267,7 @@ Before deploying to production:
 - [ ] API response times < 500ms
 
 ### Documentation
+
 - [ ] README.md updated
 - [ ] DATABASE_SCHEMA.md complete
 - [ ] .env.local.example provided
@@ -261,6 +275,7 @@ Before deploying to production:
 - [ ] Deployment guide reviewed
 
 ### Testing
+
 - [ ] Unit tests passing
 - [ ] Integration tests passing
 - [ ] Manual testing completed
@@ -274,6 +289,7 @@ Before deploying to production:
 ### Immediate Checks (First 30 minutes)
 
 1. **Application Accessibility**
+
    ```bash
    curl https://your-domain.com
    ```
@@ -350,18 +366,21 @@ Before deploying to production:
 ### Continuous Monitoring
 
 **Vercel Analytics:**
+
 - Monitor Web Vitals
 - Track page load times
 - Review error rates
 - Check deployment frequency
 
 **Database Monitoring:**
+
 - Monitor query performance
 - Track connection count
 - Review slow query log
 - Monitor disk usage
 
 **Application Monitoring:**
+
 - Set up error tracking (Sentry, Rollbar)
 - Monitor API response times
 - Track user activity
@@ -370,22 +389,26 @@ Before deploying to production:
 ### Regular Maintenance Tasks
 
 **Daily:**
+
 - Review error logs
 - Check database health
 - Monitor uptime
 
 **Weekly:**
+
 - Review performance metrics
 - Check backup integrity
 - Update dependencies (if needed)
 
 **Monthly:**
+
 - Full security audit
 - Performance optimization
 - Capacity planning
 - User feedback review
 
 **Quarterly:**
+
 - Major version updates
 - Security patches
 - Database optimization
@@ -420,6 +443,7 @@ As usage grows:
 ### Common Deployment Issues
 
 **Build Fails**
+
 ```bash
 # Clear cache and rebuild
 rm -rf node_modules pnpm-lock.yaml
@@ -428,18 +452,21 @@ pnpm build
 ```
 
 **Database Connection Error**
+
 - Verify DATABASE_URL format
 - Check firewall rules allow connection
 - Confirm database is running
 - Test connection string locally
 
 **OAuth Not Working**
+
 - Verify VITE_APP_ID is correct
 - Check redirect URI matches
 - Confirm OAuth server URL
 - Review Manus console settings
 
 **Environment Variables Not Loading**
+
 - Verify all variables set in Vercel
 - Check variable names exactly match
 - Redeploy after adding variables
@@ -448,18 +475,21 @@ pnpm build
 ### Performance Issues
 
 **Slow Dashboard Load**
+
 - Check database query times
 - Verify indexes are created
 - Consider caching stats
 - Optimize chart rendering
 
 **High Memory Usage**
+
 - Check for memory leaks
 - Review connection pool size
 - Monitor active connections
 - Optimize query results
 
 **Database Timeout**
+
 - Increase timeout values
 - Check query performance
 - Verify connection pooling
@@ -495,23 +525,27 @@ pnpm build
 ### Self-Hosted (VPS)
 
 1. **Install Dependencies**
+
    ```bash
    curl -fsSL https://get.pnpm.io/install.sh | sh -
    ```
 
 2. **Clone Repository**
+
    ```bash
    git clone <repository-url>
    cd biomedical-erp
    ```
 
 3. **Install & Build**
+
    ```bash
    pnpm install
    pnpm build
    ```
 
 4. **Run with PM2**
+
    ```bash
    npm install -g pm2
    pm2 start "pnpm start" --name biomedical-erp
@@ -524,7 +558,7 @@ pnpm build
    server {
        listen 80;
        server_name yourdomain.com;
-       
+
        location / {
            proxy_pass http://localhost:3000;
            proxy_http_version 1.1;

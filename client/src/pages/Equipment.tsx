@@ -1,16 +1,33 @@
 import React, { useState } from "react";
 import { trpc } from "@/lib/trpc";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Plus, Edit2, Trash2, AlertCircle, QrCode } from "lucide-react";
 import { toast } from "sonner";
 import QRCodeDisplay from "@/components/QRCodeDisplay";
 
 export default function Equipment() {
-  const { data: equipment, isLoading, refetch } = trpc.equipment.list.useQuery();
+  const {
+    data: equipment,
+    isLoading,
+    refetch,
+  } = trpc.equipment.list.useQuery();
   const createMutation = trpc.equipment.create.useMutation();
   const updateMutation = trpc.equipment.update.useMutation();
   const deleteMutation = trpc.equipment.delete.useMutation();
@@ -47,7 +64,15 @@ export default function Equipment() {
         toast.success("Equipment created successfully");
       }
       setOpen(false);
-      setFormData({ name: "", model: "", serialNumber: "", location: "", status: "operational", manufacturer: "", notes: "" });
+      setFormData({
+        name: "",
+        model: "",
+        serialNumber: "",
+        location: "",
+        status: "operational",
+        manufacturer: "",
+        notes: "",
+      });
       setEditingId(null);
       refetch();
     } catch (error) {
@@ -101,54 +126,84 @@ export default function Equipment() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Equipment Management</h1>
-          <p className="text-slate-600 mt-1">Manage biomedical devices and equipment</p>
+          <h1 className="text-3xl font-bold text-slate-900">
+            Equipment Management
+          </h1>
+          <p className="text-slate-600 mt-1">
+            Manage biomedical devices and equipment
+          </p>
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => {
-              setEditingId(null);
-              setFormData({ name: "", model: "", serialNumber: "", location: "", status: "operational", manufacturer: "", notes: "" });
-            }}>
+            <Button
+              onClick={() => {
+                setEditingId(null);
+                setFormData({
+                  name: "",
+                  model: "",
+                  serialNumber: "",
+                  location: "",
+                  status: "operational",
+                  manufacturer: "",
+                  notes: "",
+                });
+              }}
+            >
               <Plus className="w-4 h-4 mr-2" />
               Add Equipment
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{editingId ? "Edit Equipment" : "Add New Equipment"}</DialogTitle>
-              <DialogDescription>Enter the equipment details below</DialogDescription>
+              <DialogTitle>
+                {editingId ? "Edit Equipment" : "Add New Equipment"}
+              </DialogTitle>
+              <DialogDescription>
+                Enter the equipment details below
+              </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input
                 placeholder="Equipment Name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 required
               />
               <Input
                 placeholder="Model"
                 value={formData.model}
-                onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, model: e.target.value })
+                }
                 required
               />
               <Input
                 placeholder="Serial Number"
                 value={formData.serialNumber}
-                onChange={(e) => setFormData({ ...formData, serialNumber: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, serialNumber: e.target.value })
+                }
                 required
               />
               <Input
                 placeholder="Location"
                 value={formData.location}
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, location: e.target.value })
+                }
                 required
               />
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-700">Status</label>
+                <label className="text-sm font-medium text-slate-700">
+                  Status
+                </label>
                 <select
                   value={formData.status}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                  onChange={e =>
+                    setFormData({ ...formData, status: e.target.value })
+                  }
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="operational">Operational</option>
@@ -160,12 +215,16 @@ export default function Equipment() {
               <Input
                 placeholder="Manufacturer"
                 value={formData.manufacturer}
-                onChange={(e) => setFormData({ ...formData, manufacturer: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, manufacturer: e.target.value })
+                }
               />
               <Input
                 placeholder="Notes"
                 value={formData.notes}
-                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                onChange={e =>
+                  setFormData({ ...formData, notes: e.target.value })
+                }
               />
               <Button type="submit" className="w-full">
                 {editingId ? "Update" : "Create"} Equipment
@@ -205,10 +264,14 @@ export default function Equipment() {
                     <tr key={item.id} className="border-b hover:bg-slate-50">
                       <td className="py-2 px-4">{item.name}</td>
                       <td className="py-2 px-4">{item.model}</td>
-                      <td className="py-2 px-4 font-mono text-xs">{item.serialNumber}</td>
+                      <td className="py-2 px-4 font-mono text-xs">
+                        {item.serialNumber}
+                      </td>
                       <td className="py-2 px-4">{item.location}</td>
                       <td className="py-2 px-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(item.status)}`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(item.status)}`}
+                        >
                           {item.status}
                         </span>
                       </td>
@@ -244,7 +307,9 @@ export default function Equipment() {
           ) : (
             <div className="text-center py-8">
               <AlertCircle className="w-12 h-12 text-slate-300 mx-auto mb-2" />
-              <p className="text-slate-600">No equipment found. Add your first equipment to get started.</p>
+              <p className="text-slate-600">
+                No equipment found. Add your first equipment to get started.
+              </p>
             </div>
           )}
         </CardContent>

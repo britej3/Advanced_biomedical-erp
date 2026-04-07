@@ -19,23 +19,25 @@ Complete documentation of all database tables, columns, relationships, and const
 
 Stores user profiles and authentication information. Integrated with Manus OAuth.
 
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| `id` | INT | PRIMARY KEY, AUTO_INCREMENT | Unique user identifier |
-| `openId` | VARCHAR(64) | NOT NULL, UNIQUE | Manus OAuth identifier |
-| `name` | TEXT | NULLABLE | User's full name |
-| `email` | VARCHAR(320) | NULLABLE | User's email address |
-| `loginMethod` | VARCHAR(64) | NULLABLE | Authentication method used |
-| `role` | ENUM('user', 'admin') | NOT NULL, DEFAULT 'user' | User role for access control |
-| `createdAt` | TIMESTAMP | NOT NULL, DEFAULT NOW() | Account creation timestamp |
-| `updatedAt` | TIMESTAMP | NOT NULL, DEFAULT NOW(), ON UPDATE CURRENT_TIMESTAMP | Last update timestamp |
-| `lastSignedIn` | TIMESTAMP | NOT NULL, DEFAULT NOW() | Last login timestamp |
+| Column         | Type                  | Constraints                                          | Description                  |
+| -------------- | --------------------- | ---------------------------------------------------- | ---------------------------- |
+| `id`           | INT                   | PRIMARY KEY, AUTO_INCREMENT                          | Unique user identifier       |
+| `openId`       | VARCHAR(64)           | NOT NULL, UNIQUE                                     | Manus OAuth identifier       |
+| `name`         | TEXT                  | NULLABLE                                             | User's full name             |
+| `email`        | VARCHAR(320)          | NULLABLE                                             | User's email address         |
+| `loginMethod`  | VARCHAR(64)           | NULLABLE                                             | Authentication method used   |
+| `role`         | ENUM('user', 'admin') | NOT NULL, DEFAULT 'user'                             | User role for access control |
+| `createdAt`    | TIMESTAMP             | NOT NULL, DEFAULT NOW()                              | Account creation timestamp   |
+| `updatedAt`    | TIMESTAMP             | NOT NULL, DEFAULT NOW(), ON UPDATE CURRENT_TIMESTAMP | Last update timestamp        |
+| `lastSignedIn` | TIMESTAMP             | NOT NULL, DEFAULT NOW()                              | Last login timestamp         |
 
 **Indexes**:
+
 - PRIMARY KEY: `id`
 - UNIQUE: `openId`
 
 **Notes**:
+
 - `openId` is the unique identifier from Manus OAuth
 - `role` determines access level (admin has full access, user has limited access)
 - Timestamps are automatically managed by the database
@@ -46,32 +48,35 @@ Stores user profiles and authentication information. Integrated with Manus OAuth
 
 Stores biomedical device registry with specifications and status information.
 
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| `id` | INT | PRIMARY KEY, AUTO_INCREMENT | Unique equipment identifier |
-| `name` | VARCHAR(255) | NOT NULL | Device name/model name |
-| `model` | VARCHAR(255) | NOT NULL | Manufacturer model number |
-| `serialNumber` | VARCHAR(255) | NOT NULL, UNIQUE | Serial number (unique per device) |
-| `location` | VARCHAR(255) | NOT NULL | Physical location in hospital |
-| `status` | ENUM('operational', 'maintenance', 'out_of_service', 'retired') | NOT NULL, DEFAULT 'operational' | Current device status |
-| `manufacturer` | VARCHAR(255) | NULLABLE | Device manufacturer name |
-| `purchaseDate` | TIMESTAMP | NULLABLE | Date equipment was purchased |
-| `warrantyExpiry` | TIMESTAMP | NULLABLE | Warranty expiration date |
-| `notes` | TEXT | NULLABLE | Additional notes about equipment |
-| `createdAt` | TIMESTAMP | NOT NULL, DEFAULT NOW() | Record creation timestamp |
-| `updatedAt` | TIMESTAMP | NOT NULL, DEFAULT NOW(), ON UPDATE CURRENT_TIMESTAMP | Last update timestamp |
+| Column           | Type                                                            | Constraints                                          | Description                       |
+| ---------------- | --------------------------------------------------------------- | ---------------------------------------------------- | --------------------------------- |
+| `id`             | INT                                                             | PRIMARY KEY, AUTO_INCREMENT                          | Unique equipment identifier       |
+| `name`           | VARCHAR(255)                                                    | NOT NULL                                             | Device name/model name            |
+| `model`          | VARCHAR(255)                                                    | NOT NULL                                             | Manufacturer model number         |
+| `serialNumber`   | VARCHAR(255)                                                    | NOT NULL, UNIQUE                                     | Serial number (unique per device) |
+| `location`       | VARCHAR(255)                                                    | NOT NULL                                             | Physical location in hospital     |
+| `status`         | ENUM('operational', 'maintenance', 'out_of_service', 'retired') | NOT NULL, DEFAULT 'operational'                      | Current device status             |
+| `manufacturer`   | VARCHAR(255)                                                    | NULLABLE                                             | Device manufacturer name          |
+| `purchaseDate`   | TIMESTAMP                                                       | NULLABLE                                             | Date equipment was purchased      |
+| `warrantyExpiry` | TIMESTAMP                                                       | NULLABLE                                             | Warranty expiration date          |
+| `notes`          | TEXT                                                            | NULLABLE                                             | Additional notes about equipment  |
+| `createdAt`      | TIMESTAMP                                                       | NOT NULL, DEFAULT NOW()                              | Record creation timestamp         |
+| `updatedAt`      | TIMESTAMP                                                       | NOT NULL, DEFAULT NOW(), ON UPDATE CURRENT_TIMESTAMP | Last update timestamp             |
 
 **Indexes**:
+
 - PRIMARY KEY: `id`
 - UNIQUE: `serialNumber`
 
 **Status Values**:
+
 - `operational` - Device is functioning normally
 - `maintenance` - Device is currently undergoing maintenance
 - `out_of_service` - Device is not available for use
 - `retired` - Device is no longer in use
 
 **Notes**:
+
 - Serial number must be unique to prevent duplicates
 - Status changes are tracked via `updatedAt`
 - Location helps identify device physical placement
@@ -82,38 +87,42 @@ Stores biomedical device registry with specifications and status information.
 
 Tracks maintenance records including preventive, corrective, and inspection activities.
 
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| `id` | INT | PRIMARY KEY, AUTO_INCREMENT | Unique maintenance record ID |
-| `equipmentId` | INT | NOT NULL, FOREIGN KEY → equipment.id | Reference to equipment being maintained |
-| `type` | ENUM('preventive', 'corrective', 'inspection') | NOT NULL | Type of maintenance |
-| `description` | TEXT | NOT NULL | Detailed description of work |
-| `scheduledDate` | TIMESTAMP | NOT NULL | Scheduled maintenance date/time |
-| `completedDate` | TIMESTAMP | NULLABLE | Actual completion date/time |
-| `status` | ENUM('scheduled', 'in_progress', 'completed', 'cancelled') | NOT NULL, DEFAULT 'scheduled' | Current status |
-| `technicianId` | INT | NULLABLE, FOREIGN KEY → users.id | Assigned technician |
-| `cost` | INT | NULLABLE | Maintenance cost in cents |
-| `notes` | TEXT | NULLABLE | Additional maintenance notes |
-| `createdAt` | TIMESTAMP | NOT NULL, DEFAULT NOW() | Record creation timestamp |
-| `updatedAt` | TIMESTAMP | NOT NULL, DEFAULT NOW(), ON UPDATE CURRENT_TIMESTAMP | Last update timestamp |
+| Column          | Type                                                       | Constraints                                          | Description                             |
+| --------------- | ---------------------------------------------------------- | ---------------------------------------------------- | --------------------------------------- |
+| `id`            | INT                                                        | PRIMARY KEY, AUTO_INCREMENT                          | Unique maintenance record ID            |
+| `equipmentId`   | INT                                                        | NOT NULL, FOREIGN KEY → equipment.id                 | Reference to equipment being maintained |
+| `type`          | ENUM('preventive', 'corrective', 'inspection')             | NOT NULL                                             | Type of maintenance                     |
+| `description`   | TEXT                                                       | NOT NULL                                             | Detailed description of work            |
+| `scheduledDate` | TIMESTAMP                                                  | NOT NULL                                             | Scheduled maintenance date/time         |
+| `completedDate` | TIMESTAMP                                                  | NULLABLE                                             | Actual completion date/time             |
+| `status`        | ENUM('scheduled', 'in_progress', 'completed', 'cancelled') | NOT NULL, DEFAULT 'scheduled'                        | Current status                          |
+| `technicianId`  | INT                                                        | NULLABLE, FOREIGN KEY → users.id                     | Assigned technician                     |
+| `cost`          | INT                                                        | NULLABLE                                             | Maintenance cost in cents               |
+| `notes`         | TEXT                                                       | NULLABLE                                             | Additional maintenance notes            |
+| `createdAt`     | TIMESTAMP                                                  | NOT NULL, DEFAULT NOW()                              | Record creation timestamp               |
+| `updatedAt`     | TIMESTAMP                                                  | NOT NULL, DEFAULT NOW(), ON UPDATE CURRENT_TIMESTAMP | Last update timestamp                   |
 
 **Indexes**:
+
 - PRIMARY KEY: `id`
 - FOREIGN KEY: `equipmentId` → equipment.id
 - FOREIGN KEY: `technicianId` → users.id
 
 **Maintenance Types**:
+
 - `preventive` - Scheduled maintenance to prevent failures
 - `corrective` - Maintenance to fix a problem
 - `inspection` - Routine inspection and testing
 
 **Status Values**:
+
 - `scheduled` - Maintenance is scheduled but not started
 - `in_progress` - Maintenance is currently being performed
 - `completed` - Maintenance has been finished
 - `cancelled` - Maintenance was cancelled
 
 **Notes**:
+
 - `cost` is stored in cents (multiply by 100 for database storage)
 - `technicianId` can be NULL if not yet assigned
 - `completedDate` is NULL until maintenance is completed
@@ -124,27 +133,29 @@ Tracks maintenance records including preventive, corrective, and inspection acti
 
 Manages spare parts and consumables inventory with stock tracking.
 
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| `id` | INT | PRIMARY KEY, AUTO_INCREMENT | Unique inventory item ID |
-| `name` | VARCHAR(255) | NOT NULL | Item name/description |
-| `partNumber` | VARCHAR(255) | NOT NULL, UNIQUE | Manufacturer part number |
-| `quantity` | INT | NOT NULL, DEFAULT 0 | Current stock quantity |
-| `threshold` | INT | NOT NULL, DEFAULT 5 | Low-stock alert threshold |
-| `unit` | VARCHAR(50) | NOT NULL, DEFAULT 'piece' | Unit of measurement |
-| `category` | VARCHAR(255) | NULLABLE | Item category/type |
-| `supplier` | VARCHAR(255) | NULLABLE | Supplier name |
-| `unitCost` | INT | NULLABLE | Cost per unit in cents |
-| `lastRestockDate` | TIMESTAMP | NULLABLE | Last restocking date |
-| `notes` | TEXT | NULLABLE | Additional notes |
-| `createdAt` | TIMESTAMP | NOT NULL, DEFAULT NOW() | Record creation timestamp |
-| `updatedAt` | TIMESTAMP | NOT NULL, DEFAULT NOW(), ON UPDATE CURRENT_TIMESTAMP | Last update timestamp |
+| Column            | Type         | Constraints                                          | Description               |
+| ----------------- | ------------ | ---------------------------------------------------- | ------------------------- |
+| `id`              | INT          | PRIMARY KEY, AUTO_INCREMENT                          | Unique inventory item ID  |
+| `name`            | VARCHAR(255) | NOT NULL                                             | Item name/description     |
+| `partNumber`      | VARCHAR(255) | NOT NULL, UNIQUE                                     | Manufacturer part number  |
+| `quantity`        | INT          | NOT NULL, DEFAULT 0                                  | Current stock quantity    |
+| `threshold`       | INT          | NOT NULL, DEFAULT 5                                  | Low-stock alert threshold |
+| `unit`            | VARCHAR(50)  | NOT NULL, DEFAULT 'piece'                            | Unit of measurement       |
+| `category`        | VARCHAR(255) | NULLABLE                                             | Item category/type        |
+| `supplier`        | VARCHAR(255) | NULLABLE                                             | Supplier name             |
+| `unitCost`        | INT          | NULLABLE                                             | Cost per unit in cents    |
+| `lastRestockDate` | TIMESTAMP    | NULLABLE                                             | Last restocking date      |
+| `notes`           | TEXT         | NULLABLE                                             | Additional notes          |
+| `createdAt`       | TIMESTAMP    | NOT NULL, DEFAULT NOW()                              | Record creation timestamp |
+| `updatedAt`       | TIMESTAMP    | NOT NULL, DEFAULT NOW(), ON UPDATE CURRENT_TIMESTAMP | Last update timestamp     |
 
 **Indexes**:
+
 - PRIMARY KEY: `id`
 - UNIQUE: `partNumber`
 
 **Unit Examples**:
+
 - `piece` - Individual items
 - `box` - Boxes of items
 - `roll` - Rolls of material
@@ -152,11 +163,13 @@ Manages spare parts and consumables inventory with stock tracking.
 - `pack` - Packs of items
 
 **Low-Stock Alert Logic**:
+
 - Alert triggered when `quantity <= threshold`
 - Alerts displayed on dashboard and inventory page
 - Helps prevent stockouts of critical items
 
 **Notes**:
+
 - `unitCost` is stored in cents
 - `quantity` should never be negative
 - Part number must be unique to prevent duplicates
@@ -167,28 +180,30 @@ Manages spare parts and consumables inventory with stock tracking.
 
 Manages work orders and task assignments for staff.
 
-| Column | Type | Constraints | Description |
-|--------|------|-------------|-------------|
-| `id` | INT | PRIMARY KEY, AUTO_INCREMENT | Unique work order ID |
-| `title` | VARCHAR(255) | NOT NULL | Work order title/summary |
-| `description` | TEXT | NULLABLE | Detailed description of work |
-| `assignedTo` | INT | NULLABLE, FOREIGN KEY → users.id | Assigned staff member |
-| `status` | ENUM('open', 'in_progress', 'completed', 'on_hold', 'cancelled') | NOT NULL, DEFAULT 'open' | Current status |
-| `priority` | ENUM('low', 'medium', 'high', 'urgent') | NOT NULL, DEFAULT 'medium' | Priority level |
-| `dueDate` | TIMESTAMP | NULLABLE | Due date for completion |
-| `completedDate` | TIMESTAMP | NULLABLE | Actual completion date |
-| `equipmentId` | INT | NULLABLE, FOREIGN KEY → equipment.id | Related equipment |
-| `createdBy` | INT | NOT NULL, FOREIGN KEY → users.id | User who created order |
-| `createdAt` | TIMESTAMP | NOT NULL, DEFAULT NOW() | Record creation timestamp |
-| `updatedAt` | TIMESTAMP | NOT NULL, DEFAULT NOW(), ON UPDATE CURRENT_TIMESTAMP | Last update timestamp |
+| Column          | Type                                                             | Constraints                                          | Description                  |
+| --------------- | ---------------------------------------------------------------- | ---------------------------------------------------- | ---------------------------- |
+| `id`            | INT                                                              | PRIMARY KEY, AUTO_INCREMENT                          | Unique work order ID         |
+| `title`         | VARCHAR(255)                                                     | NOT NULL                                             | Work order title/summary     |
+| `description`   | TEXT                                                             | NULLABLE                                             | Detailed description of work |
+| `assignedTo`    | INT                                                              | NULLABLE, FOREIGN KEY → users.id                     | Assigned staff member        |
+| `status`        | ENUM('open', 'in_progress', 'completed', 'on_hold', 'cancelled') | NOT NULL, DEFAULT 'open'                             | Current status               |
+| `priority`      | ENUM('low', 'medium', 'high', 'urgent')                          | NOT NULL, DEFAULT 'medium'                           | Priority level               |
+| `dueDate`       | TIMESTAMP                                                        | NULLABLE                                             | Due date for completion      |
+| `completedDate` | TIMESTAMP                                                        | NULLABLE                                             | Actual completion date       |
+| `equipmentId`   | INT                                                              | NULLABLE, FOREIGN KEY → equipment.id                 | Related equipment            |
+| `createdBy`     | INT                                                              | NOT NULL, FOREIGN KEY → users.id                     | User who created order       |
+| `createdAt`     | TIMESTAMP                                                        | NOT NULL, DEFAULT NOW()                              | Record creation timestamp    |
+| `updatedAt`     | TIMESTAMP                                                        | NOT NULL, DEFAULT NOW(), ON UPDATE CURRENT_TIMESTAMP | Last update timestamp        |
 
 **Indexes**:
+
 - PRIMARY KEY: `id`
 - FOREIGN KEY: `assignedTo` → users.id
 - FOREIGN KEY: `equipmentId` → equipment.id
 - FOREIGN KEY: `createdBy` → users.id
 
 **Status Values**:
+
 - `open` - Work order is created but not started
 - `in_progress` - Work is currently being performed
 - `completed` - Work has been finished
@@ -196,12 +211,14 @@ Manages work orders and task assignments for staff.
 - `cancelled` - Work order was cancelled
 
 **Priority Levels**:
+
 - `low` - Can be done when convenient
 - `medium` - Should be done soon
 - `high` - Should be prioritized
 - `urgent` - Must be done immediately
 
 **Notes**:
+
 - `assignedTo` can be NULL if not yet assigned
 - `equipmentId` can be NULL if not related to specific equipment
 - `createdBy` is required and tracks who created the order

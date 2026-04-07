@@ -1,7 +1,13 @@
 import React, { useRef } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Download, Printer, X } from "lucide-react";
 import { toast } from "sonner";
 
@@ -79,16 +85,26 @@ export default function QRCodeDisplay({
       const printWindow = window.open("", "", "height=600,width=600");
       if (printWindow) {
         const svgString = new XMLSerializer().serializeToString(svg);
-        printWindow.document.write("<html><head><title>Equipment QR Code</title>");
-        printWindow.document.write("<style>body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }</style>");
+        printWindow.document.write(
+          "<html><head><title>Equipment QR Code</title>"
+        );
+        printWindow.document.write(
+          "<style>body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }</style>"
+        );
         printWindow.document.write("</head><body>");
         printWindow.document.write(`<h2>${equipmentName}</h2>`);
-        printWindow.document.write(`<p><strong>Serial Number:</strong> ${serialNumber}</p>`);
-        printWindow.document.write(`<p><strong>Equipment ID:</strong> ${equipmentId}</p>`);
+        printWindow.document.write(
+          `<p><strong>Serial Number:</strong> ${serialNumber}</p>`
+        );
+        printWindow.document.write(
+          `<p><strong>Equipment ID:</strong> ${equipmentId}</p>`
+        );
         printWindow.document.write("<div style='margin: 20px 0;'>");
         printWindow.document.write(svgString);
         printWindow.document.write("</div>");
-        printWindow.document.write("<p style='font-size: 12px; color: #666;'>Scan this QR code to access equipment information</p>");
+        printWindow.document.write(
+          "<p style='font-size: 12px; color: #666;'>Scan this QR code to access equipment information</p>"
+        );
         printWindow.document.write("</body></html>");
         printWindow.document.close();
         setTimeout(() => printWindow.print(), 250);
@@ -116,13 +132,11 @@ export default function QRCodeDisplay({
         )}
       </CardHeader>
       <CardContent className="space-y-4">
-        <div ref={qrRef} className="flex justify-center p-4 bg-white rounded-lg border">
-          <QRCodeSVG
-            value={qrData}
-            size={256}
-            level="H"
-            includeMargin={true}
-          />
+        <div
+          ref={qrRef}
+          className="flex justify-center p-4 bg-white rounded-lg border"
+        >
+          <QRCodeSVG value={qrData} size={256} level="H" includeMargin={true} />
         </div>
 
         <div className="space-y-2 text-sm">
@@ -132,7 +146,9 @@ export default function QRCodeDisplay({
           </div>
           <div>
             <span className="font-medium">Serial Number:</span>
-            <span className="ml-2 text-muted-foreground font-mono">{serialNumber}</span>
+            <span className="ml-2 text-muted-foreground font-mono">
+              {serialNumber}
+            </span>
           </div>
         </div>
 
@@ -158,7 +174,8 @@ export default function QRCodeDisplay({
         </div>
 
         <p className="text-xs text-muted-foreground text-center">
-          Scan this QR code with a mobile device to quickly access equipment information
+          Scan this QR code with a mobile device to quickly access equipment
+          information
         </p>
       </CardContent>
     </Card>
